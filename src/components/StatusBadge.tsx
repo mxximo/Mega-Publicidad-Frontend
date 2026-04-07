@@ -10,12 +10,12 @@ type BadgeTone =
   | 'accent';
 
 const toneClasses: Record<BadgeTone, string> = {
-  neutral: 'bg-slate-100 text-slate-700 border-slate-200',
-  info: 'bg-sky-100 text-sky-700 border-sky-200',
-  success: 'bg-emerald-100 text-emerald-700 border-emerald-200',
-  warning: 'bg-amber-100 text-amber-800 border-amber-200',
-  danger: 'bg-rose-100 text-rose-700 border-rose-200',
-  accent: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200',
+  neutral: 'bg-[rgba(255,255,255,0.08)] text-[var(--admin-ink2)] border-[var(--admin-border2)]',
+  info: 'bg-[var(--admin-blue-bg)] text-[var(--admin-blue)] border-[rgba(96,165,250,0.2)]',
+  success: 'bg-[var(--admin-green-bg)] text-[var(--admin-green)] border-[rgba(52,211,153,0.2)]',
+  warning: 'bg-[var(--admin-amber-bg)] text-[var(--admin-amber)] border-[rgba(251,191,36,0.2)]',
+  danger: 'bg-[rgba(251,113,133,0.12)] text-[#fda4af] border-[rgba(251,113,133,0.2)]',
+  accent: 'bg-[var(--admin-accent-bg)] text-[var(--admin-accent)] border-[rgba(232,72,85,0.2)]',
 };
 
 interface StatusBadgeProps {

@@ -38,16 +38,28 @@ export default function AdminLayout() {
   const allowedNavItems = navItems.filter((item) => hasPermission(item.permission));
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-slate-950">
-      <div className="mx-auto flex max-w-[1600px] flex-col gap-6 px-4 py-4 lg:flex-row lg:px-6">
-        <aside className="panel-card h-fit w-full p-4 lg:sticky lg:top-4 lg:w-72">
-          <div className="rounded-[28px] bg-slate-950 p-5 text-white">
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-400">Workspace</p>
-            <h1 className="mt-3 text-2xl font-black tracking-tight">GraficaPro</h1>
-            <p className="mt-2 text-sm text-slate-300">{roleLabel[user.role]}</p>
+    <div className="admin-theme-root flex min-h-screen" data-admin-theme="dark">
+      {/* Sidebar — fixed full height */}
+      <aside className="fixed inset-y-0 left-0 z-30 flex w-60 flex-col border-r border-[var(--admin-border)] bg-[var(--sb-bg)]">
+        {/* Brand */}
+        <div className="border-b border-[var(--admin-border)] px-5 py-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--admin-accent)] text-xs font-black text-white">
+              MP
+            </div>
+            <div>
+              <p className="text-sm font-bold text-[var(--sb-text-hi)]">Mega Publicidad</p>
+              <p className="text-xs text-[var(--sb-text)]">{roleLabel[user.role]}</p>
+            </div>
           </div>
+        </div>
 
-          <nav className="mt-5 grid gap-2">
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
+          <p className="mb-3 px-2 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[var(--sb-section)]">
+            Menu
+          </p>
+          <div className="grid gap-0.5">
             {allowedNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -57,10 +69,10 @@ export default function AdminLayout() {
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    'flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition',
+                    'admin-sidebar-link flex items-center gap-2.5 rounded-lg px-3 py-2 text-[0.82rem] font-medium transition',
                     isActive
-                      ? 'bg-[var(--brand)] text-white'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950',
+                      ? 'bg-[var(--sb-active-bg)] text-[var(--admin-accent)]'
+                      : 'text-[var(--sb-text)] hover:text-[var(--sb-text-hi)]',
                   )}
                 >
                   <Icon className="h-4 w-4" />
@@ -68,45 +80,55 @@ export default function AdminLayout() {
                 </Link>
               );
             })}
-          </nav>
-
-          <div className="mt-5 rounded-[28px] border border-slate-200 p-4">
-            <p className="font-semibold text-slate-950">{user.name}</p>
-            <p className="mt-1 text-sm text-slate-500">{user.email}</p>
-            <button
-              type="button"
-              onClick={logout}
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white"
-            >
-              Cerrar sesion <LogOut className="h-4 w-4" />
-            </button>
           </div>
-        </aside>
+        </nav>
 
-        <div className="flex-1">
-          <header className="panel-card mb-6 flex flex-col gap-4 p-5 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
-                Panel interno
-              </p>
-              <p className="mt-2 text-lg font-black tracking-tight text-slate-950">
-                Navegacion filtrada por permisos y experiencia adaptada por rol
-              </p>
+        {/* User footer */}
+        <div className="border-t border-[var(--admin-border)] px-4 py-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--admin-surface2)] text-xs font-bold text-[var(--sb-text-hi)]">
+              {user.name.charAt(0)}
             </div>
-            <div className="inline-flex items-center gap-3 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600">
-              <Bell className="h-4 w-4" />
-              {user.role === 'admin'
-                ? 'Puedes supervisar y reasignar trabajos'
-                : user.role === 'cashier'
-                  ? 'Caja, pedidos y clientes listos'
-                  : 'Tienes visibilidad solo sobre tus trabajos'}
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-[var(--sb-text-hi)]">{user.name}</p>
+              <p className="truncate text-xs text-[var(--sb-text)]">{user.email}</p>
             </div>
-          </header>
-
-          <main>
-            <Outlet />
-          </main>
+          </div>
+          <button
+            type="button"
+            onClick={logout}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--admin-border)] px-3 py-1.5 text-xs font-medium text-[var(--sb-text)] transition hover:bg-[var(--sb-hover)] hover:text-[var(--sb-text-hi)]"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+            Cerrar sesion
+          </button>
         </div>
+      </aside>
+
+      {/* Main content — offset by sidebar width */}
+      <div className="ml-60 flex-1">
+        <header className="sticky top-0 z-20 flex items-center justify-between border-b border-[var(--admin-border)] bg-[var(--admin-bg)] px-6 py-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--admin-ink3)]">
+              Panel interno
+            </p>
+            <p className="mt-0.5 text-sm font-medium text-[var(--admin-ink)]">
+              Navegacion filtrada por permisos
+            </p>
+          </div>
+          <div className="flex items-center gap-2 rounded-lg bg-[var(--admin-surface2)] px-3 py-1.5 text-xs font-medium text-[var(--admin-ink2)]">
+            <Bell className="h-3.5 w-3.5" />
+            {user.role === 'admin'
+              ? 'Supervisar y reasignar'
+              : user.role === 'cashier'
+                ? 'Caja y pedidos'
+                : 'Mis trabajos'}
+          </div>
+        </header>
+
+        <main className="p-6">
+          <Outlet />
+        </main>
       </div>
     </div>
   );

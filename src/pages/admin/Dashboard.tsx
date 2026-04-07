@@ -25,13 +25,11 @@ export default function Dashboard() {
     <div className="space-y-6">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
-            Vista ejecutiva
-          </p>
-          <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950">
+          <p className="admin-kicker">Vista ejecutiva</p>
+          <h1 className="mt-2 text-4xl font-black tracking-tight admin-text">
             Dashboard general del negocio
           </h1>
-          <p className="mt-3 text-sm text-slate-500">
+          <p className="mt-3 text-sm admin-text-muted">
             Resume ventas, produccion, clientes e inventario sobre el mismo dominio de datos.
           </p>
         </div>
@@ -70,14 +68,14 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-        <section className="panel-card p-6">
+        <section className="admin-panel p-6">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-xl font-black tracking-tight text-slate-950">Pedidos recientes</h2>
+            <h2 className="text-xl font-black tracking-tight admin-text">Pedidos recientes</h2>
             <StatusBadge tone="info">{orders.length} registros</StatusBadge>
           </div>
           <div className="mt-5 overflow-x-auto">
             <table className="min-w-full text-left text-sm">
-              <thead className="text-xs uppercase tracking-[0.18em] text-slate-500">
+              <thead className="admin-table-head text-xs">
                 <tr>
                   <th className="pb-3">Tracking</th>
                   <th className="pb-3">Origen</th>
@@ -85,15 +83,15 @@ export default function Dashboard() {
                   <th className="pb-3">Total</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-[var(--admin-border)]">
                 {orders.map((order) => (
                   <tr key={order.id}>
-                    <td className="py-4 font-semibold text-slate-950">{order.trackingCode}</td>
-                    <td className="py-4 capitalize text-slate-500">{order.origin}</td>
+                    <td className="py-4 font-semibold admin-text">{order.trackingCode}</td>
+                    <td className="py-4 capitalize admin-text-muted">{order.origin}</td>
                     <td className="py-4">
                       <StatusBadge tone="info">{order.publicStatus}</StatusBadge>
                     </td>
-                    <td className="py-4 font-semibold text-slate-950">
+                    <td className="py-4 font-semibold admin-text">
                       {formatCurrency(order.total)}
                     </td>
                   </tr>
@@ -103,18 +101,18 @@ export default function Dashboard() {
           </div>
         </section>
 
-        <section className="panel-card p-6">
+        <section className="admin-panel p-6">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-xl font-black tracking-tight text-slate-950">Atencion inmediata</h2>
-            <AlertTriangle className="h-5 w-5 text-amber-500" />
+            <h2 className="text-xl font-black tracking-tight admin-text">Atencion inmediata</h2>
+            <AlertTriangle className="h-5 w-5 text-[var(--admin-amber)]" />
           </div>
           <div className="mt-5 space-y-4">
             {creativeJobs.map((job) => (
-              <div key={job.id} className="rounded-[24px] bg-slate-50 p-4">
+              <div key={job.id} className="admin-panel-soft rounded-lg p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="font-bold text-slate-950">{job.title}</p>
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="font-bold admin-text">{job.title}</p>
+                    <p className="mt-1 text-sm admin-text-muted">
                       Entrega {formatDateTime(job.dueDate)}
                     </p>
                   </div>

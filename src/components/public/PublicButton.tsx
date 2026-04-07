@@ -8,6 +8,8 @@ interface PublicButtonProps {
   children: ReactNode;
   className?: string;
   variant?: 'primary' | 'secondary';
+  type?: 'button' | 'submit';
+  onClick?: () => void;
 }
 
 const baseClasses = {
@@ -21,6 +23,8 @@ export default function PublicButton({
   children,
   className,
   variant = 'primary',
+  type = 'button',
+  onClick,
 }: PublicButtonProps) {
   const classes = cn(baseClasses[variant], className);
 
@@ -29,6 +33,14 @@ export default function PublicButton({
       <Link to={to} className={classes}>
         {children}
       </Link>
+    );
+  }
+
+  if (!href) {
+    return (
+      <button type={type} onClick={onClick} className={classes}>
+        {children}
+      </button>
     );
   }
 

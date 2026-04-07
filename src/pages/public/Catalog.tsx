@@ -1,58 +1,68 @@
-import { Link } from 'react-router-dom';
+import PublicBadge from '../../components/public/PublicBadge';
+import PublicButton from '../../components/public/PublicButton';
+import PublicCard from '../../components/public/PublicCard';
+import PublicSection from '../../components/public/PublicSection';
+import SectionHeading from '../../components/public/SectionHeading';
 import { products } from '../../data/mockData';
 import { formatCurrency } from '../../lib/format';
-import StatusBadge from '../../components/StatusBadge';
 
 export default function Catalog() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-      <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
-            Catalogo de productos
-          </p>
-          <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950">
-            Impresion, merchandising y gran formato
-          </h1>
-          <p className="mt-3 max-w-3xl text-sm text-slate-500">
-            Este MVP diferencia productos fisicos de servicios y trabajos personalizados para que la
-            operacion comercial no mezcle flujos.
-          </p>
-        </div>
-        <Link
-          to="/contact"
-          className="inline-flex rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white"
-        >
-          Pedir cotizacion comercial
-        </Link>
-      </div>
-
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        {products.map((product) => (
-          <article key={product.id} className="panel-card overflow-hidden">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="h-48 w-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            <div className="p-5">
-              <div className="flex items-center justify-between gap-3">
-                <StatusBadge tone={product.stock > 25 ? 'success' : 'warning'}>
-                  {product.stock > 25 ? 'Disponible' : 'Stock ajustado'}
-                </StatusBadge>
-                <span className="text-xs font-medium text-slate-500">{product.sku}</span>
-              </div>
-              <h2 className="mt-4 text-xl font-bold text-slate-950">{product.name}</h2>
-              <p className="mt-2 text-sm text-slate-500">{product.description}</p>
-              <div className="mt-5 flex items-center justify-between">
-                <span className="text-lg font-black text-slate-950">{formatCurrency(product.price)}</span>
-                <span className="text-sm text-slate-500">{product.unit}</span>
-              </div>
+    <div className="overflow-hidden">
+      <PublicSection>
+        <div className="gp-section-shell">
+          <div className="gp-section-shell-orb gp-section-shell-orb-cyan" />
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+              <SectionHeading
+                kicker="Catalogo de productos"
+                title="Impresion, merchandising y gran formato"
+                description="Productos fisicos listos para compra, cotizacion y entrega. Diferenciados de servicios y trabajos personalizados."
+              />
+              <PublicButton to="/contact" variant="secondary">
+                Pedir cotizacion comercial
+              </PublicButton>
             </div>
-          </article>
-        ))}
-      </div>
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+              {products.map((product) => (
+                <PublicCard key={product.id} className="overflow-hidden">
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-full w-full object-cover opacity-84 transition duration-300 hover:scale-[1.02]"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[rgba(9,17,31,0.95)] via-[rgba(9,17,31,0.1)] to-transparent" />
+                  </div>
+                  <div className="p-5">
+                    <div className="flex items-center justify-between gap-3">
+                      <PublicBadge tone={product.stock > 25 ? 'success' : 'warning'}>
+                        {product.stock > 25 ? 'Disponible' : 'Stock ajustado'}
+                      </PublicBadge>
+                      <span className="text-xs font-medium text-[var(--public-text-muted)]">
+                        {product.sku}
+                      </span>
+                    </div>
+                    <h2 className="mt-4 text-xl font-bold text-[var(--public-text)]">
+                      {product.name}
+                    </h2>
+                    <p className="mt-2 text-sm leading-7 text-[var(--public-text-muted)]">
+                      {product.description}
+                    </p>
+                    <div className="mt-5 flex items-center justify-between">
+                      <span className="text-lg font-black text-white">
+                        {formatCurrency(product.price)}
+                      </span>
+                      <span className="text-sm text-[var(--public-text-muted)]">{product.unit}</span>
+                    </div>
+                  </div>
+                </PublicCard>
+              ))}
+            </div>
+          </div>
+        </div>
+      </PublicSection>
     </div>
   );
 }

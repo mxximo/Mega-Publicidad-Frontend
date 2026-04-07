@@ -6,8 +6,8 @@ export default function Inventory() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">Inventario</p>
-        <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950">
+        <p className="admin-kicker">Inventario</p>
+        <h1 className="mt-2 text-4xl font-black tracking-tight admin-text">
           Stock base y material comprometido
         </h1>
       </div>
@@ -17,11 +17,11 @@ export default function Inventory() {
           const isLow = available <= item.minimumStock;
 
           return (
-            <article key={item.id} className="panel-card p-6">
+            <article key={item.id} className="admin-panel p-6">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-sm font-medium text-slate-500">{item.sku}</p>
-                  <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950">
+                  <p className="text-sm font-medium admin-text-muted">{item.sku}</p>
+                  <h2 className="mt-2 text-2xl font-black tracking-tight admin-text">
                     {item.name}
                   </h2>
                 </div>
@@ -30,17 +30,17 @@ export default function Inventory() {
                 </StatusBadge>
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                <div className="admin-surface-soft rounded-lg px-4 py-3 text-sm admin-text-muted">
                   {item.stock} stock
                 </div>
-                <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                <div className="admin-surface-soft rounded-lg px-4 py-3 text-sm admin-text-muted">
                   {item.reserved} reservado
                 </div>
-                <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                <div className="admin-surface-soft rounded-lg px-4 py-3 text-sm admin-text-muted">
                   {available} disponible
                 </div>
               </div>
-              <p className="mt-5 text-sm text-slate-500">
+              <p className="mt-5 text-sm admin-text-muted">
                 Minimo {item.minimumStock} · {item.location} · actualizado{' '}
                 {formatDateTime(item.updatedAt)}
               </p>

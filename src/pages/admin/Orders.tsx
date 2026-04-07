@@ -6,32 +6,30 @@ export default function Orders() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">Pedidos</p>
-        <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950">
+        <p className="admin-kicker">Pedidos</p>
+        <h1 className="mt-2 text-4xl font-black tracking-tight admin-text">
           Control de ventas y solicitudes
         </h1>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-3">
         {['product', 'service', 'custom-design'].map((origin) => (
-          <div key={origin} className="panel-card p-6">
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
-              {origin}
-            </p>
-            <p className="mt-3 text-3xl font-black tracking-tight text-slate-950">
+          <div key={origin} className="admin-panel p-6">
+            <p className="admin-kicker">{origin}</p>
+            <p className="mt-3 text-3xl font-black tracking-tight admin-text">
               {orders.filter((order) => order.origin === origin).length}
             </p>
           </div>
         ))}
       </div>
 
-      <div className="panel-card overflow-hidden">
-        <div className="border-b border-slate-200 px-6 py-5">
-          <h2 className="text-xl font-black tracking-tight text-slate-950">Listado general</h2>
+      <div className="admin-panel overflow-hidden">
+        <div className="border-b border-[var(--admin-border)] px-6 py-5">
+          <h2 className="text-xl font-black tracking-tight admin-text">Listado general</h2>
         </div>
         <div className="overflow-x-auto px-6 py-5">
           <table className="min-w-full text-left text-sm">
-            <thead className="text-xs uppercase tracking-[0.18em] text-slate-500">
+            <thead className="admin-table-head text-xs">
               <tr>
                 <th className="pb-3">Tracking</th>
                 <th className="pb-3">Cliente</th>
@@ -42,24 +40,24 @@ export default function Orders() {
                 <th className="pb-3">Total</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-[var(--admin-border)]">
               {orders.map((order) => {
                 const customer = customers.find((candidate) => candidate.id === order.customerId);
                 return (
                   <tr key={order.id}>
-                    <td className="py-4 font-semibold text-slate-950">{order.trackingCode}</td>
-                    <td className="py-4 text-slate-600">{customer?.name}</td>
-                    <td className="py-4 capitalize text-slate-600">{order.origin}</td>
+                    <td className="py-4 font-semibold admin-text">{order.trackingCode}</td>
+                    <td className="py-4 admin-text-muted">{customer?.name}</td>
+                    <td className="py-4 capitalize admin-text-muted">{order.origin}</td>
                     <td className="py-4">
                       <StatusBadge tone="warning">{order.internalStatus}</StatusBadge>
                     </td>
                     <td className="py-4">
                       <StatusBadge tone="info">{order.publicStatus}</StatusBadge>
                     </td>
-                    <td className="py-4 text-slate-600">
+                    <td className="py-4 admin-text-muted">
                       {formatDateTime(order.estimatedDelivery)}
                     </td>
-                    <td className="py-4 font-semibold text-slate-950">
+                    <td className="py-4 font-semibold admin-text">
                       {formatCurrency(order.total)}
                     </td>
                   </tr>

@@ -45,13 +45,11 @@ export default function ProductionBoard() {
 
   return (
     <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-      <section className="panel-card p-6">
+      <section className="admin-panel p-6">
         <div className="mb-6 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
-              Produccion creativa
-            </p>
-            <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950">
+            <p className="admin-kicker">Produccion creativa</p>
+            <h1 className="mt-2 text-3xl font-black tracking-tight admin-text">
               {user && 'role' in user && user.role === 'designer'
                 ? 'Mis trabajos asignados'
                 : 'Tablero operativo'}
@@ -67,10 +65,10 @@ export default function ProductionBoard() {
         <div className="overflow-x-auto">
           <div className="flex min-w-max gap-4">
             {columns.map((column) => (
-              <div key={column.id} className="w-72 rounded-[28px] bg-slate-50 p-4">
+              <div key={column.id} className="admin-panel-soft w-72 rounded-xl p-4">
                 <div className="mb-4 flex items-center justify-between gap-3">
                   <StatusBadge tone={column.tone}>{column.title}</StatusBadge>
-                  <span className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">
+                  <span className="admin-text-faint text-xs font-bold uppercase tracking-[0.18em]">
                     {visibleJobs.filter((job) => job.status === column.id).length}
                   </span>
                 </div>
@@ -84,10 +82,10 @@ export default function ProductionBoard() {
                           key={job.id}
                           type="button"
                           onClick={() => setSelectedJobId(job.id)}
-                          className={`w-full rounded-[24px] border p-4 text-left transition ${
+                          className={`w-full rounded-lg border p-4 text-left transition ${
                             selectedJobId === job.id
-                              ? 'border-[var(--brand)] bg-white'
-                              : 'border-slate-200 bg-white hover:border-slate-300'
+                              ? 'border-[var(--admin-accent)] bg-[var(--admin-surface)]'
+                              : 'border-[var(--admin-border)] bg-[var(--admin-surface)] hover:border-[var(--admin-border2)]'
                           }`}
                         >
                           <div className="flex items-center justify-between gap-3">
@@ -102,11 +100,11 @@ export default function ProductionBoard() {
                             >
                               {job.priority}
                             </StatusBadge>
-                            <span className="text-xs font-medium text-slate-400">{job.id}</span>
+                            <span className="admin-text-faint text-xs font-medium">{job.id}</span>
                           </div>
-                          <p className="mt-4 font-bold text-slate-950">{job.title}</p>
-                          <p className="mt-2 text-sm text-slate-500">{customer?.name}</p>
-                          <p className="mt-4 text-xs uppercase tracking-[0.18em] text-slate-400">
+                          <p className="mt-4 font-bold admin-text">{job.title}</p>
+                          <p className="mt-2 text-sm admin-text-muted">{customer?.name}</p>
+                          <p className="mt-4 admin-text-faint text-xs uppercase tracking-[0.18em]">
                             Vence {formatDateTime(job.dueDate)}
                           </p>
                         </button>
@@ -119,47 +117,45 @@ export default function ProductionBoard() {
         </div>
       </section>
 
-      <section className="panel-card p-6">
+      <section className="admin-panel p-6">
         {!selectedJob ? (
-          <p className="text-sm text-slate-500">No hay trabajos visibles para este usuario.</p>
+          <p className="text-sm admin-text-muted">No hay trabajos visibles para este usuario.</p>
         ) : (
           <>
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-medium text-slate-500">{selectedJob.id}</p>
-                <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950">
+                <p className="text-sm font-medium admin-text-muted">{selectedJob.id}</p>
+                <h2 className="mt-2 text-2xl font-black tracking-tight admin-text">
                   {selectedJob.title}
                 </h2>
               </div>
               <StatusBadge tone="info">{selectedJob.status}</StatusBadge>
             </div>
 
-            <div className="mt-6 space-y-3 text-sm text-slate-600">
-              <div className="rounded-2xl bg-slate-50 px-4 py-3">
+            <div className="mt-6 space-y-3 text-sm admin-text-muted">
+              <div className="admin-surface-soft rounded-lg px-4 py-3">
                 Responsable principal:{' '}
-                <span className="font-semibold text-slate-950">
+                <span className="font-semibold admin-text">
                   {internalUsers.find((candidate) => candidate.id === selectedJob.designerId)?.name}
                 </span>
               </div>
-              <div className="rounded-2xl bg-slate-50 px-4 py-3">
+              <div className="admin-surface-soft rounded-lg px-4 py-3">
                 Asigno:{' '}
-                <span className="font-semibold text-slate-950">
+                <span className="font-semibold admin-text">
                   {internalUsers.find((candidate) => candidate.id === selectedJob.assignedById)?.name}
                 </span>
               </div>
-              <div className="rounded-2xl bg-slate-50 px-4 py-3">
+              <div className="admin-surface-soft rounded-lg px-4 py-3">
                 Fecha limite: {formatDateTime(selectedJob.dueDate)}
               </div>
             </div>
 
             <div className="mt-6 space-y-4">
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
-                  Observaciones internas
-                </h3>
+                <h3 className="admin-kicker">Observaciones internas</h3>
                 <div className="mt-3 space-y-3">
                   {selectedJob.internalNotes.map((note) => (
-                    <div key={note} className="rounded-[24px] border border-slate-200 p-4 text-sm text-slate-600">
+                    <div key={note} className="rounded-lg border border-[var(--admin-border)] p-4 text-sm admin-text-muted">
                       {note}
                     </div>
                   ))}
@@ -167,20 +163,18 @@ export default function ProductionBoard() {
               </div>
 
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
-                  Archivos y entregables
-                </h3>
+                <h3 className="admin-kicker">Archivos y entregables</h3>
                 <div className="mt-3 space-y-3">
                   {selectedJob.files.map((file) => (
                     <div
                       key={file.id}
-                      className="flex items-center justify-between rounded-[24px] border border-slate-200 p-4 text-sm"
+                      className="flex items-center justify-between rounded-lg border border-[var(--admin-border)] p-4 text-sm"
                     >
                       <div className="flex items-center gap-3">
-                        <Paperclip className="h-4 w-4 text-slate-400" />
+                        <Paperclip className="h-4 w-4 admin-text-faint" />
                         <div>
-                          <p className="font-semibold text-slate-950">{file.name}</p>
-                          <p className="text-slate-500">{file.size}</p>
+                          <p className="font-semibold admin-text">{file.name}</p>
+                          <p className="admin-text-muted">{file.size}</p>
                         </div>
                       </div>
                       <StatusBadge tone={file.visibleToCustomer ? 'success' : 'neutral'}>
@@ -205,17 +199,15 @@ export default function ProductionBoard() {
                       ),
                     )
                   }
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white"
+                  className="admin-primary-button inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold"
                 >
                   Mover al siguiente estado <Clock3 className="h-4 w-4" />
                 </button>
               ) : null}
 
               {hasPermission('production.assign') ? (
-                <div className="rounded-[28px] border border-slate-200 p-4">
-                  <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
-                    Reasignacion controlada
-                  </p>
+                <div className="rounded-xl border border-[var(--admin-border)] p-4">
+                  <p className="admin-kicker">Reasignacion controlada</p>
                   <div className="mt-3 grid gap-2">
                     {designers.map((designer) => (
                       <button
@@ -235,28 +227,26 @@ export default function ProductionBoard() {
                             ),
                           )
                         }
-                        className="flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3 text-left"
+                        className="admin-surface-soft flex items-center justify-between rounded-lg px-4 py-3 text-left transition hover:bg-[var(--admin-surface2)]"
                       >
-                        <span className="font-semibold text-slate-950">{designer.name}</span>
-                        <ArrowRightLeft className="h-4 w-4 text-slate-400" />
+                        <span className="font-semibold admin-text">{designer.name}</span>
+                        <ArrowRightLeft className="h-4 w-4 admin-text-faint" />
                       </button>
                     ))}
                   </div>
                 </div>
               ) : null}
 
-              <div className="rounded-[28px] border border-slate-200 p-4">
-                <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
-                  Trazabilidad
-                </p>
+              <div className="rounded-xl border border-[var(--admin-border)] p-4">
+                <p className="admin-kicker">Trazabilidad</p>
                 <div className="mt-3 space-y-3">
                   {selectedJob.timeline.map((event) => (
-                    <div key={event.id} className="flex gap-3 rounded-2xl bg-slate-50 p-4">
-                      <FileText className="mt-0.5 h-4 w-4 text-slate-400" />
+                    <div key={event.id} className="admin-surface-soft flex gap-3 rounded-lg p-4">
+                      <FileText className="mt-0.5 h-4 w-4 admin-text-faint" />
                       <div>
-                        <p className="font-semibold text-slate-950">{event.internalLabel}</p>
-                        <p className="mt-1 text-sm text-slate-500">{formatDateTime(event.at)}</p>
-                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-400">
+                        <p className="font-semibold admin-text">{event.internalLabel}</p>
+                        <p className="mt-1 text-sm admin-text-muted">{formatDateTime(event.at)}</p>
+                        <p className="mt-1 admin-text-faint text-xs uppercase tracking-[0.18em]">
                           {event.actor}
                         </p>
                       </div>
