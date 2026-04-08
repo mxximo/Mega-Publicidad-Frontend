@@ -1,5 +1,5 @@
 import { ArrowRight, BookOpen, ChevronRight, Clock, MapPin, Palette, Ruler, Sparkles, User, Users, WandSparkles, Zap } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PublicButton from '../../components/public/PublicButton';
 import PublicCard from '../../components/public/PublicCard';
