@@ -1,4 +1,5 @@
-import { ArrowRight, PackageSearch, User } from 'lucide-react';
+import { ArrowRight, Menu, PackageSearch, User, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import CrystalBackground from '../components/backgrounds/CrystalBackground';
 import { useAuth } from '../context/AuthContext';
@@ -6,6 +7,10 @@ import { useAuth } from '../context/AuthContext';
 export default function PublicLayout() {
   const { isCustomer, user } = useAuth();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Cierra el menú al cambiar de ruta
+  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
 
   const navLinks = [
     { name: 'Inicio', path: '/' },
@@ -46,6 +51,7 @@ export default function PublicLayout() {
       <header className="gp-nav-wrap">
         <div className="public-container">
           <div className="gp-nav-pill">
+            {/* Brand */}
             <Link to="/" className="gp-nav-brand">
               <div className="gp-nav-isotipo">MP</div>
               <div className="gp-nav-brand-text">
@@ -54,9 +60,9 @@ export default function PublicLayout() {
               </div>
             </Link>
 
+            {/* Desktop nav */}
             <div className="gp-nav-divider hidden lg:block" />
-
-            <nav className="gp-nav-links flex">
+            <nav className="gp-nav-links hidden lg:flex">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
@@ -67,10 +73,8 @@ export default function PublicLayout() {
                 </Link>
               ))}
             </nav>
-
             <div className="gp-nav-divider hidden lg:block" />
-
-            <div className="gp-nav-actions flex">
+            <div className="gp-nav-actions hidden lg:flex">
               <Link to="/track" className="gp-nav-btn-track">
                 <PackageSearch className="h-4 w-4 text-[var(--public-accent)]" />
                 Rastrear
@@ -84,8 +88,65 @@ export default function PublicLayout() {
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
+
+            {/* Mobile: CTA + hamburger */}
+            <div className="ml-auto flex items-center gap-3 lg:hidden">
+              <Link
+                to="/custom-design"
+                className="rounded-full bg-[var(--public-accent)] px-4 py-2 text-xs font-bold text-white"
+              >
+                Solicitar
+              </Link>
+              <button
+                type="button"
+                aria-label="Abrir menu"
+                onClick={() => setMenuOpen((v) => !v)}
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] text-[var(--public-text)]"
+              >
+                {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* Mobile menu drawer */}
+        {menuOpen && (
+          <div className="border-t border-[rgba(255,255,255,0.06)] bg-[rgba(5,3,18,0.96)] backdrop-blur-xl lg:hidden">
+            <div className="public-container py-4">
+              <nav className="flex flex-col gap-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`rounded-xl px-4 py-3 text-sm font-semibold transition ${
+                      location.pathname === link.path
+                        ? 'bg-[rgba(139,92,246,0.15)] text-[var(--public-accent)]'
+                        : 'text-[var(--public-text-muted)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </nav>
+              <div className="mt-4 border-t border-[rgba(255,255,255,0.06)] pt-4 flex flex-col gap-2">
+                <Link
+                  to="/track"
+                  className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-[var(--public-text-muted)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white transition"
+                >
+                  <PackageSearch className="h-4 w-4 text-[var(--public-accent)]" />
+                  Rastrear pedido
+                </Link>
+                <Link
+                  to={isCustomer ? '/account' : '/account/login'}
+                  className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-[var(--public-text-muted)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white transition"
+                >
+                  <User className="h-4 w-4" />
+                  {isCustomer ? customerName : 'Area de cliente'}
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="relative z-10 flex-1 pt-[60px]">

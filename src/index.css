@@ -765,11 +765,20 @@ select {
 }
 
 .gp-nav-links {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   gap: 6px;
   flex: 1;
+}
+
+@media (min-width: 1024px) {
+  .gp-nav-links {
+    display: flex;
+  }
+  .gp-nav-actions {
+    display: flex;
+  }
 }
 
 .gp-nav-link {
@@ -807,7 +816,7 @@ select {
 }
 
 .gp-nav-actions {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 10px;
   padding-inline: 8px 4px;

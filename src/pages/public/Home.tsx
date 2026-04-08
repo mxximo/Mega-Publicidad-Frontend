@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, ChevronRight, Clock, MapPin, Palette, Ruler, Sparkles, User, Users, WandSparkles, Zap } from 'lucide-react';
+import { ArrowDownToLine, ArrowRight, BookOpen, ChevronRight, Clock, Eye, MapPin, Package, PackageCheck, Palette, Ruler, Settings2, Sparkles, User, Users, WandSparkles, Zap } from 'lucide-react';
 import { useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PublicButton from '../../components/public/PublicButton';
@@ -439,43 +439,36 @@ export default function Home() {
             description="Cada flujo mantiene su propia logica operativa, pero visualmente todo se siente parte del mismo sistema premium."
             align="center"
           />
-          <div className="mt-10 grid gap-5 lg:grid-cols-4">
+          {/* Timeline horizontal desktop / vertical mobile */}
+          <div className="mt-12 flex flex-col gap-6 lg:flex-row lg:gap-0">
             {[
-              {
-                step: '01',
-                title: 'Entrada correcta',
-                description: 'Producto, servicio o proyecto a medida desde el canal adecuado.',
-              },
-              {
-                step: '02',
-                title: 'Operacion interna',
-                description: 'Venta, caja, asignacion y control sin mezclar estados.',
-              },
-              {
-                step: '03',
-                title: 'Seguimiento visible',
-                description: 'El cliente consulta avances y entregables autorizados.',
-              },
-              {
-                step: '04',
-                title: 'Cierre profesional',
-                description: 'Entrega final con historial y experiencia ordenada.',
-              },
-            ].map((item) => (
-              <PublicCard key={item.step} className="relative p-6">
-                <div className="absolute right-5 top-5 text-5xl font-black tracking-tight text-white/5">
-                  {item.step}
+              { step: '01', icon: ArrowDownToLine, title: 'Entrada correcta', description: 'Producto, servicio o proyecto a medida desde el canal adecuado.', color: '#c4b5fd' },
+              { step: '02', icon: Settings2, title: 'Operacion interna', description: 'Venta, caja, asignacion y control sin mezclar estados.', color: '#67e8f9' },
+              { step: '03', icon: Eye, title: 'Seguimiento visible', description: 'El cliente consulta avances y entregables autorizados.', color: '#6ee7b7' },
+              { step: '04', icon: PackageCheck, title: 'Cierre profesional', description: 'Entrega final con historial y experiencia ordenada.', color: '#fcd34d' },
+            ].map((item, i, arr) => (
+              <div key={item.step} className="relative flex flex-1 flex-col items-center text-center lg:px-6">
+                {/* Línea conectora (desktop) */}
+                {i < arr.length - 1 && (
+                  <div className="absolute left-1/2 top-6 hidden h-px w-full bg-gradient-to-r from-[rgba(139,92,246,0.4)] to-[rgba(6,182,212,0.2)] lg:block" style={{ left: '50%', width: '100%' }} />
+                )}
+                {/* Línea conectora (mobile) */}
+                {i < arr.length - 1 && (
+                  <div className="absolute left-6 top-12 h-full w-px bg-gradient-to-b from-[rgba(139,92,246,0.4)] to-[rgba(6,182,212,0.2)] lg:hidden" />
+                )}
+                {/* Círculo numerado */}
+                <div
+                  className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full"
+                  style={{ background: `radial-gradient(circle, ${item.color}22 0%, ${item.color}08 100%)`, border: `1px solid ${item.color}44`, boxShadow: `0 0 20px ${item.color}22` }}
+                >
+                  <item.icon className="h-5 w-5" style={{ color: item.color }} />
                 </div>
-                <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--public-accent)]">
-                  {item.step}
-                </p>
-                <h3 className="mt-4 text-xl font-black tracking-tight text-[var(--public-text)]">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-sm leading-7 text-[var(--public-text-muted)]">
-                  {item.description}
-                </p>
-              </PublicCard>
+                <div className="mt-5 lg:mt-6">
+                  <p className="text-xs font-bold uppercase tracking-[0.22em]" style={{ color: item.color }}>{item.step}</p>
+                  <h3 className="mt-2 text-lg font-black tracking-tight text-[var(--public-text)]">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-[var(--public-text-muted)]">{item.description}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -485,39 +478,65 @@ export default function Home() {
         <div className="gp-section-shell">
           <div className="gp-section-shell-orb gp-section-shell-orb-cyan" />
           <div className="flex flex-col gap-8">
-          <SectionHeading
-            kicker="Portafolio"
-            title="Casos con presencia visual fuerte, sin caer en saturacion"
-            description="Una galeria compacta con bloques oscuros, brillos suaves y etiquetas claras para proyectar nivel creativo."
-            align="center"
-          />
-          <div className="portfolio-masonry">
-            {portfolioHighlights.map((item) => (
-              <PublicCard key={item.id} className="portfolio-card p-6">
-                <div className="relative h-48 overflow-hidden rounded-[24px]">
-                  {item.image ? (
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-cover"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-[linear-gradient(135deg,rgba(139,92,246,0.24),rgba(59,130,246,0.08)),radial-gradient(circle_at_top_right,rgba(103,232,249,0.24),transparent_32%),rgba(255,255,255,0.03)]" />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(9,17,31,0.85)] via-transparent to-transparent" />
+            <SectionHeading
+              kicker="Portafolio"
+              title="Proyectos reales con impacto visual y resultados medibles"
+              description="Desde identidades de marca hasta materiales de gran formato. Cada trabajo tiene un brief, un equipo y un cierre formal."
+              align="center"
+            />
+            <div className="grid gap-5 lg:grid-cols-[1.6fr_1fr_1fr]">
+              {[
+                {
+                  id: 'prt-001',
+                  title: 'Lanzamiento de stand corporativo',
+                  tag: 'Evento + branding',
+                  gradient: 'linear-gradient(135deg, rgba(109,40,217,0.55) 0%, rgba(37,99,235,0.4) 50%, rgba(15,23,42,0.3) 100%)',
+                  accent: '#c4b5fd',
+                  tall: true,
+                },
+                {
+                  id: 'prt-002',
+                  title: 'Coleccion de piezas para retail',
+                  tag: 'Impresion gran formato',
+                  gradient: 'linear-gradient(135deg, rgba(6,182,212,0.5) 0%, rgba(16,185,129,0.35) 50%, rgba(15,23,42,0.3) 100%)',
+                  accent: '#67e8f9',
+                  tall: false,
+                },
+                {
+                  id: 'prt-003',
+                  title: 'Campana digital estacional',
+                  tag: 'Redes sociales',
+                  gradient: 'linear-gradient(135deg, rgba(245,158,11,0.45) 0%, rgba(239,68,68,0.35) 50%, rgba(15,23,42,0.3) 100%)',
+                  accent: '#fcd34d',
+                  tall: false,
+                },
+              ].map((item) => (
+                <div
+                  key={item.id}
+                  className={`group relative overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.07)] ${item.tall ? 'lg:row-span-2' : ''}`}
+                >
+                  <div
+                    className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.03]"
+                    style={{ background: item.gradient }}
+                  />
+                  {/* Noise texture overlay */}
+                  <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")', backgroundSize: '200px 200px' }} />
+                  {/* Bottom overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(5,3,18,0.9)] via-[rgba(5,3,18,0.2)] to-transparent" />
+                  <div className={`relative flex flex-col justify-end p-6 ${item.tall ? 'min-h-[400px]' : 'min-h-[190px]'}`}>
+                    <span
+                      className="mb-3 inline-block w-fit rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.18em]"
+                      style={{ background: `${item.accent}18`, color: item.accent, border: `1px solid ${item.accent}30` }}
+                    >
+                      {item.tag}
+                    </span>
+                    <h3 className="text-xl font-black tracking-tight text-white leading-tight">
+                      {item.title}
+                    </h3>
+                  </div>
                 </div>
-                <p className="mt-5 text-xs font-bold uppercase tracking-[0.24em] text-[var(--public-accent)]">
-                  {item.tag}
-                </p>
-                <h3 className="mt-3 text-xl font-black tracking-tight text-[var(--public-text)]">
-                  {item.title}
-                </h3>
-              </PublicCard>
-            ))}
-          </div>
+              ))}
+            </div>
           </div>
         </div>
       </PublicSection>
@@ -525,53 +544,67 @@ export default function Home() {
       <PublicSection className="bg-[linear-gradient(180deg,rgba(255,255,255,0.018),transparent)]">
         <SectionHeading
           kicker="Testimonios"
-          title="Clientes que sintieron una experiencia mas premium y ordenada"
-          description="Tipografia amplia, contraste alto y cards oscuras elevadas para darle valor a la prueba social."
+          title="Lo que dicen quienes ya confiaron en el proceso"
           align="center"
         />
         <div className="mt-10 grid gap-5 md:grid-cols-2">
-          {testimonials.map((testimonial) => (
-            <PublicCard key={testimonial.id} className="p-6 sm:p-8">
-              <p className="text-xl font-medium leading-9 text-[var(--public-text)]">
-                “{testimonial.quote}”
+          {testimonials.map((testimonial, i) => (
+            <PublicCard strong key={testimonial.id} className="relative overflow-hidden p-8 sm:p-10">
+              {/* Comilla decorativa */}
+              <span className="absolute left-6 top-4 select-none text-[7rem] leading-none font-black text-white/[0.04]">&ldquo;</span>
+              <p className="relative text-xl font-medium leading-9 text-[var(--public-text)]">
+                {testimonial.quote}
               </p>
-              <div className="mt-8">
-                <p className="font-bold text-[var(--public-text)]">{testimonial.author}</p>
-                <p className="mt-1 text-sm text-[var(--public-text-muted)]">
-                  {testimonial.company}
-                </p>
+              <div className="mt-8 flex items-center gap-4">
+                {/* Avatar con inicial */}
+                <div
+                  className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full text-sm font-black text-white"
+                  style={{ background: i === 0 ? 'linear-gradient(135deg,#7c3aed,#2563eb)' : 'linear-gradient(135deg,#0891b2,#059669)' }}
+                >
+                  {testimonial.author.charAt(0)}
+                </div>
+                <div>
+                  <p className="font-bold text-[var(--public-text)]">{testimonial.author}</p>
+                  <span className="mt-1 inline-block rounded-full bg-[rgba(255,255,255,0.06)] px-2.5 py-0.5 text-xs text-[var(--public-text-muted)]">
+                    {testimonial.company}
+                  </span>
+                </div>
               </div>
             </PublicCard>
           ))}
         </div>
       </PublicSection>
 
-      {/* Numeros de la empresa */}
+      {/* Numeros de la empresa — banner unificado */}
       <PublicSection className="pb-0">
         <div className="gp-section-shell">
           <div className="gp-section-shell-orb gp-section-shell-orb-violet" />
-          <SectionHeading
-            kicker="Mega Publicidad en numeros"
-            title="Una empresa con trayectoria, volumen real y capacidad probada"
-            description="Bogota, Colombia. Mas de una decada entregando comunicacion visual con calidad de estudio para empresas de todos los sectores."
-            align="center"
-          />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { value: '+1.200', label: 'Proyectos entregados', icon: Zap },
-              { value: '+340', label: 'Clientes activos', icon: Users },
-              { value: '12 anos', label: 'De experiencia en el sector', icon: Clock },
-              { value: '5 zonas', label: 'De cobertura en Bogota', icon: MapPin },
-            ].map((stat) => (
-              <PublicCard key={stat.label} className="p-6 text-center">
-                <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[rgba(139,92,246,0.14)] ring-1 ring-[rgba(139,92,246,0.18)]">
-                  <stat.icon className="h-5 w-5 text-[var(--public-accent)]" />
+          <PublicCard strong className="overflow-hidden">
+            <div className="grid grid-cols-2 divide-x divide-y divide-[rgba(255,255,255,0.06)] lg:grid-cols-4 lg:divide-y-0">
+              {[
+                { value: '+1.200', label: 'Proyectos entregados', icon: Zap, color: '#c4b5fd' },
+                { value: '+340', label: 'Clientes activos', icon: Users, color: '#67e8f9' },
+                { value: '12 años', label: 'De experiencia', icon: Clock, color: '#6ee7b7' },
+                { value: '5 zonas', label: 'Cobertura Bogota', icon: MapPin, color: '#fcd34d' },
+              ].map((stat) => (
+                <div key={stat.label} className="flex flex-col items-center gap-3 px-6 py-8 text-center">
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-xl"
+                    style={{ background: `${stat.color}15`, border: `1px solid ${stat.color}25` }}
+                  >
+                    <stat.icon className="h-4 w-4" style={{ color: stat.color }} />
+                  </div>
+                  <p
+                    className="text-4xl font-black tracking-[-0.05em]"
+                    style={{ background: `linear-gradient(135deg, #fff 30%, ${stat.color} 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+                  >
+                    {stat.value}
+                  </p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--public-text-muted)]">{stat.label}</p>
                 </div>
-                <p className="text-3xl font-black tracking-[-0.04em] text-[var(--public-text)]">{stat.value}</p>
-                <p className="mt-2 text-sm leading-6 text-[var(--public-text-muted)]">{stat.label}</p>
-              </PublicCard>
-            ))}
-          </div>
+              ))}
+            </div>
+          </PublicCard>
         </div>
       </PublicSection>
 
@@ -587,44 +620,27 @@ export default function Home() {
           />
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {[
-              {
-                icon: Ruler,
-                title: 'Medidas y acabados exactos',
-                description: 'Produccion con especificaciones tecnicas rigurosas: gramaje, barniz, troquelado, laminado y mas.',
-              },
-              {
-                icon: Clock,
-                title: 'Tiempos de entrega reales',
-                description: 'Cada producto tiene un tiempo de produccion definido. Sin promesas vagas. El cliente sabe exactamente cuando recibe.',
-              },
-              {
-                icon: Users,
-                title: 'Gestion por cliente',
-                description: 'Area privada con historial de pedidos, entregables autorizados y comunicacion directa con el equipo de diseno.',
-              },
-              {
-                icon: Sparkles,
-                title: 'Diseno con criterio editorial',
-                description: 'No solo ejecutamos lo que piden. El equipo creativo aporta concepto, jerarquia visual y coherencia de marca.',
-              },
-              {
-                icon: Zap,
-                title: 'Produccion en Bogota',
-                description: 'Planta propia en zona industrial. Sin intermediarios. Mas control sobre calidad, tiempos y costos finales.',
-              },
-              {
-                icon: WandSparkles,
-                title: 'Portal digital integrado',
-                description: 'Catalogo, servicios, tracking y area de cliente en un solo sistema. Sin llamadas para saber el estado del pedido.',
-              },
+              { icon: Ruler, color: '#c4b5fd', title: 'Medidas y acabados exactos', description: 'Produccion con especificaciones tecnicas rigurosas: gramaje, barniz, troquelado, laminado y mas.' },
+              { icon: Clock, color: '#67e8f9', title: 'Tiempos de entrega reales', description: 'Cada producto tiene un tiempo de produccion definido. Sin promesas vagas. El cliente sabe cuando recibe.' },
+              { icon: Users, color: '#6ee7b7', title: 'Gestion por cliente', description: 'Area privada con historial de pedidos, entregables autorizados y comunicacion directa con el equipo.' },
+              { icon: Sparkles, color: '#fcd34d', title: 'Diseno con criterio editorial', description: 'No solo ejecutamos lo que piden. El equipo aporta concepto, jerarquia visual y coherencia de marca.' },
+              { icon: Package, color: '#fb923c', title: 'Produccion en Bogota', description: 'Planta propia en zona industrial. Sin intermediarios. Mas control sobre calidad, tiempos y costos.' },
+              { icon: WandSparkles, color: '#f472b6', title: 'Portal digital integrado', description: 'Catalogo, servicios, tracking y area de cliente en un solo sistema. Sin llamadas para saber el estado.' },
             ].map((item) => (
-              <PublicCard key={item.title} className="p-6">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[rgba(6,182,212,0.12)] ring-1 ring-[rgba(6,182,212,0.18)]">
-                  <item.icon className="h-5 w-5 text-[var(--public-accent-cyan,#5cf0e8)]" />
+              <div
+                key={item.title}
+                className="group rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.06)]"
+                style={{ ['--glow' as string]: item.color }}
+              >
+                <div
+                  className="mb-5 flex h-13 w-13 items-center justify-center rounded-xl transition-shadow duration-300 group-hover:shadow-[0_0_20px_var(--glow,transparent)]"
+                  style={{ background: `${item.color}14`, border: `1px solid ${item.color}25`, width: '3.25rem', height: '3.25rem' }}
+                >
+                  <item.icon className="h-6 w-6" style={{ color: item.color }} />
                 </div>
                 <h3 className="text-lg font-bold tracking-tight text-[var(--public-text)]">{item.title}</h3>
                 <p className="mt-3 text-sm leading-7 text-[var(--public-text-muted)]">{item.description}</p>
-              </PublicCard>
+              </div>
             ))}
           </div>
         </div>
