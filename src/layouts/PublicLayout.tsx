@@ -20,12 +20,32 @@ export default function PublicLayout() {
 
   return (
     <div className="public-shell flex min-h-screen flex-col">
-      <CrystalBackground className="pointer-events-none fixed inset-0 z-0 opacity-70" />
+      <CrystalBackground className="pointer-events-none fixed inset-0 z-0 opacity-100" />
       <div className="public-noise" />
 
-      <header className="gp-nav-wrap gp-nav-wrap-scrolled">
+      {/* Global decorative blobs — atmospheric depth across all pages */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute -left-40 -top-32 h-[600px] w-[700px] rounded-full bg-[rgba(109,40,217,0.32)] blur-[130px]" />
+        <div className="absolute -right-24 top-1/4 h-[500px] w-[580px] rounded-full bg-[rgba(6,182,212,0.18)] blur-[110px]" />
+        <div className="absolute bottom-0 left-1/3 h-[450px] w-[520px] rounded-full bg-[rgba(124,58,237,0.22)] blur-[120px]" />
+        <div className="absolute right-1/4 top-2/3 h-[300px] w-[380px] rounded-full bg-[rgba(59,130,246,0.14)] blur-[90px]" />
+      </div>
+
+      {/* Global grid overlay */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0 opacity-60"
+        aria-hidden="true"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
+          backgroundSize: '52px 52px',
+          maskImage: 'linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0.2) 60%, transparent)',
+        }}
+      />
+
+      <header className="gp-nav-wrap">
         <div className="public-container">
-          <div className="gp-nav-pill gp-nav-pill-scrolled">
+          <div className="gp-nav-pill">
             <Link to="/" className="gp-nav-brand">
               <div className="gp-nav-isotipo">MP</div>
               <div className="gp-nav-brand-text">
@@ -68,11 +88,11 @@ export default function PublicLayout() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 pt-24">
+      <main className="relative z-10 flex-1 pt-[60px]">
         <Outlet />
       </main>
 
-      <footer className="mt-auto pt-10 pb-0 sm:pt-12">
+      <footer className="relative z-10 mt-auto pt-10 pb-0 sm:pt-12">
         <div className="public-container">
           <div className="gp-panel-strong overflow-hidden p-8 sm:p-10">
             <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr_0.85fr]">
@@ -110,7 +130,7 @@ export default function PublicLayout() {
 
             <div className="public-divider mt-10" />
             <div className="mt-6 flex flex-col gap-3 text-sm text-[var(--public-text-muted)] sm:flex-row sm:items-center sm:justify-between">
-              <p>© 2026 Mega Publicidad. Sistema visual dark premium para el portal publico.</p>
+              <p>&copy; 2026 Mega Publicidad. Sistema visual dark premium para el portal publico.</p>
               <p>Bogota, Colombia</p>
             </div>
           </div>
@@ -119,4 +139,3 @@ export default function PublicLayout() {
     </div>
   );
 }
-

@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronRight, Sparkles, WandSparkles } from 'lucide-react';
+import { ArrowRight, BookOpen, ChevronRight, Clock, MapPin, Palette, Ruler, Sparkles, User, Users, WandSparkles, Zap } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PublicButton from '../../components/public/PublicButton';
@@ -8,41 +8,53 @@ import SectionHeading from '../../components/public/SectionHeading';
 import {
   portfolioHighlights,
   products,
+  services,
   testimonials,
 } from '../../data/mockData';
 import { formatCurrency } from '../../lib/format';
 
 const quickLinks = [
   {
-    title: 'Catalogo listo para vender',
-    description: 'Productos fisicos listos para compra, cotizacion y entrega.',
+    icon: BookOpen,
+    label: 'Catalogo',
+    title: 'Productos listos para pedir',
+    description: 'Tarjetas, pendones, brochures y mas. Con precio, stock y tiempo de entrega visible.',
     to: '/catalog',
+    iconBg: 'rgba(139,92,246,0.15)',
+    iconColor: '#c4b5fd',
+    borderHover: 'rgba(139,92,246,0.35)',
   },
   {
-    title: 'Servicios creativos',
-    description: 'Branding, piezas digitales y editorial con alcance claro.',
+    icon: Palette,
+    label: 'Servicios',
+    title: 'Servicios creativos por paquete',
+    description: 'Branding, redes sociales y editorial con alcance definido y entregables claros.',
     to: '/services',
+    iconBg: 'rgba(6,182,212,0.12)',
+    iconColor: '#67e8f9',
+    borderHover: 'rgba(6,182,212,0.3)',
   },
   {
-    title: 'Diseño personalizado',
-    description: 'Brief, asignacion y seguimiento para proyectos a medida.',
+    icon: WandSparkles,
+    label: 'A medida',
+    title: 'Proyectos con brief y revision',
+    description: 'Para cuando el proyecto necesita criterio creativo, asignacion y trazabilidad completa.',
     to: '/custom-design',
+    iconBg: 'rgba(251,191,36,0.1)',
+    iconColor: '#fcd34d',
+    borderHover: 'rgba(251,191,36,0.28)',
   },
   {
-    title: 'Area de cliente',
-    description: 'Historial, tracking y entregables visibles en un solo lugar.',
+    icon: User,
+    label: 'Mi cuenta',
+    title: 'Area privada del cliente',
+    description: 'Consulta tu historial de pedidos, descarga entregables y rastrea el estado en tiempo real.',
     to: '/account/login',
+    iconBg: 'rgba(52,211,153,0.1)',
+    iconColor: '#6ee7b7',
+    borderHover: 'rgba(52,211,153,0.28)',
   },
 ];
-
-const publicStatusLabels = {
-  received: 'Recibido',
-  scheduled: 'Programado',
-  in_design: 'En desarrollo',
-  in_review: 'En revision',
-  ready_for_delivery: 'Listo para entrega',
-  completed: 'Completado',
-};
 
 export default function Home() {
   const featuredProducts = products.filter((product) => product.featured).slice(0, 3);
@@ -185,19 +197,28 @@ export default function Home() {
           <div className="gp-section-shell-orb gp-section-shell-orb-cyan" />
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {quickLinks.map((link) => (
-              <PublicCard key={link.title} className="p-5 sm:p-6">
-                <div className="mb-4 h-px w-14 bg-gradient-to-r from-[rgba(92,240,232,0.55)] to-transparent" />
-                <p className="text-lg font-bold tracking-tight text-[var(--public-text)]">{link.title}</p>
-                <p className="mt-3 text-sm leading-7 text-[var(--public-text-muted)]">
+              <Link
+                key={link.title}
+                to={link.to}
+                className="group relative flex flex-col rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.04)] p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(255,255,255,0.14)] hover:bg-[rgba(255,255,255,0.07)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.35)]"
+              >
+                <div
+                  className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl"
+                  style={{ background: link.iconBg }}
+                >
+                  <link.icon className="h-5 w-5" style={{ color: link.iconColor }} />
+                </div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] mb-2" style={{ color: link.iconColor }}>
+                  {link.label}
+                </p>
+                <p className="text-base font-bold tracking-tight text-[var(--public-text)] leading-snug">{link.title}</p>
+                <p className="mt-3 text-sm leading-6 text-[var(--public-text-muted)] flex-1">
                   {link.description}
                 </p>
-                <Link
-                  to={link.to}
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[var(--public-accent)] transition hover:translate-x-0.5"
-                >
-                  Abrir <ChevronRight className="h-4 w-4" />
-                </Link>
-              </PublicCard>
+                <div className="mt-5 flex items-center gap-1.5 text-sm font-semibold" style={{ color: link.iconColor }}>
+                  Explorar <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -210,8 +231,8 @@ export default function Home() {
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               kicker="Productos destacados"
-              title="Impresion y publicidad con presencia premium desde el primer vistazo"
-              description="Cards oscuras elevadas, contraste alto y lectura inmediata para destacar el catalogo sin perder claridad comercial."
+              title="Materiales de impresion listos para pedir con entrega express"
+              description="Tarjetas, pendones, brochures y soportes fisicos con especificaciones tecnicas claras, stock disponible y tiempo de produccion garantizado."
             />
             <PublicButton to="/catalog" variant="secondary">
               Ver catalogo completo
@@ -260,18 +281,63 @@ export default function Home() {
         </div>
       </PublicSection>
 
-      <PublicSection className="bg-[linear-gradient(180deg,rgba(255,255,255,0.02),transparent)]">
-        <SectionHeading
-          kicker="Servicios destacados"
-          title="Servicios creativos con look editorial y enfoque SaaS"
-          description="Visualmente se sienten premium, pero mantienen una jerarquia util para vender con rapidez y explicar alcance."
-          align="center"
-        />
-        <div className="mt-4 text-center text-sm text-[var(--public-text-muted)]">
-          Consulta todos los paquetes en la seccion de servicios.
-        </div>
-        <div className="mt-6 flex justify-center">
-          <PublicButton to="/services">Ir a servicios</PublicButton>
+      <PublicSection>
+        <div className="gp-section-shell">
+          <div className="gp-section-shell-orb gp-section-shell-orb-cyan" />
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+              <SectionHeading
+                kicker="Servicios creativos"
+                title="Paquetes con alcance claro, entregables definidos y tiempos reales"
+                description="No cobramos por hora ni por sorpresa. Cada servicio tiene un precio base, una lista de entregables y un tiempo de entrega especifico."
+              />
+              <PublicButton to="/services" variant="secondary">
+                Ver todos los servicios
+              </PublicButton>
+            </div>
+            <div className="grid gap-5 lg:grid-cols-3">
+              {services.slice(0, 3).map((service) => (
+                <Link
+                  key={service.id}
+                  to="/services"
+                  className="group flex flex-col rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.04)] p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(6,182,212,0.28)] hover:bg-[rgba(255,255,255,0.07)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.35)]"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="rounded-full border border-[rgba(6,182,212,0.22)] bg-[rgba(6,182,212,0.1)] px-3 py-1 text-xs font-semibold text-[#67e8f9]">
+                      {service.category}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-xs text-[var(--public-text-muted)]">
+                      <Clock className="h-3.5 w-3.5" />
+                      {service.turnaround}
+                    </span>
+                  </div>
+                  <h3 className="mt-5 text-xl font-black tracking-tight text-[var(--public-text)]">
+                    {service.name}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-[var(--public-text-muted)] flex-1">
+                    {service.summary}
+                  </p>
+                  <div className="mt-5 pt-5 border-t border-[rgba(255,255,255,0.06)]">
+                    <div className="flex flex-wrap gap-2">
+                      {service.deliverables.slice(0, 2).map((d) => (
+                        <span key={d} className="rounded-md bg-[rgba(255,255,255,0.05)] px-2.5 py-1 text-xs text-[var(--public-text-muted)]">
+                          {d}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-lg font-black tracking-tight text-white">
+                        {formatCurrency(service.priceFrom)}
+                      </span>
+                      <span className="flex items-center gap-1 text-xs font-semibold text-[#67e8f9] transition-transform group-hover:translate-x-0.5">
+                        Ver detalle <ChevronRight className="h-3.5 w-3.5" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </PublicSection>
 
@@ -470,65 +536,86 @@ export default function Home() {
         </div>
       </PublicSection>
 
-      <PublicSection className="pb-4">
-        <div className="gp-section-shell gp-section-shell-strong">
+      {/* Numeros de la empresa */}
+      <PublicSection className="pb-0">
+        <div className="gp-section-shell">
           <div className="gp-section-shell-orb gp-section-shell-orb-violet" />
-          <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
-          <PublicCard className="p-8">
-            <SectionHeading
-              kicker="Contacto"
-              title="Un cierre visual limpio para convertir sin ruido"
-              description="La seccion final mantiene el tono premium y orienta rapidamente al tipo de solicitud correcta."
-            />
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {[
-                { label: 'Telefono', value: '+57 601 555 2040' },
-                { label: 'Correo', value: 'hola@megapublicidad.co' },
-                { label: 'Ubicacion', value: 'Bogota, zona industrial' },
-              ].map((item) => (
-                <div key={item.label} className="gp-muted-card p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--public-accent)]">
-                    {item.label}
-                  </p>
-                  <p
-                    className="mt-3 text-sm font-semibold text-[var(--public-text)]"
-                    style={{
-                      wordBreak: 'break-all',
-                      overflowWrap: 'anywhere',
-                      whiteSpace: 'normal',
-                      display: 'inline-block',
-                      maxWidth: '100%',
-                    }}
-                  >
-                    {item.value}
-                  </p>
+          <SectionHeading
+            kicker="Mega Publicidad en numeros"
+            title="Una empresa con trayectoria, volumen real y capacidad probada"
+            description="Bogota, Colombia. Mas de una decada entregando comunicacion visual con calidad de estudio para empresas de todos los sectores."
+            align="center"
+          />
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { value: '+1.200', label: 'Proyectos entregados', icon: Zap },
+              { value: '+340', label: 'Clientes activos', icon: Users },
+              { value: '12 anos', label: 'De experiencia en el sector', icon: Clock },
+              { value: '5 zonas', label: 'De cobertura en Bogota', icon: MapPin },
+            ].map((stat) => (
+              <PublicCard key={stat.label} className="p-6 text-center">
+                <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[rgba(139,92,246,0.14)] ring-1 ring-[rgba(139,92,246,0.18)]">
+                  <stat.icon className="h-5 w-5 text-[var(--public-accent)]" />
                 </div>
-              ))}
-            </div>
-          </PublicCard>
+                <p className="text-3xl font-black tracking-[-0.04em] text-[var(--public-text)]">{stat.value}</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--public-text-muted)]">{stat.label}</p>
+              </PublicCard>
+            ))}
+          </div>
+        </div>
+      </PublicSection>
 
-          <PublicCard strong className="p-8">
-            <p className="public-kicker">CTA final</p>
-            <h3 className="mt-4 text-3xl font-black tracking-tight text-[var(--public-text)]">
-              Dirige a cada cliente al flujo correcto desde el primer clic.
-            </h3>
-            <div className="mt-8 grid gap-3">
-              {[
-                { title: 'Comprar productos', to: '/catalog' },
-                { title: 'Explorar servicios', to: '/services' },
-                { title: 'Solicitar diseno', to: '/custom-design' },
-              ].map((item) => (
-                <Link
-                  key={item.title}
-                  to={item.to}
-                  className="gp-muted-card flex items-center justify-between px-5 py-4 text-sm font-semibold text-[var(--public-text)] transition hover:border-[rgba(103,232,249,0.24)]"
-                >
-                  {item.title}
-                  <ChevronRight className="h-4 w-4 text-[var(--public-accent)]" />
-                </Link>
-              ))}
-            </div>
-          </PublicCard>
+      {/* Diferenciales */}
+      <PublicSection className="pb-4">
+        <div className="gp-section-shell">
+          <div className="gp-section-shell-orb gp-section-shell-orb-cyan" />
+          <SectionHeading
+            kicker="Por que Mega Publicidad"
+            title="No solo impresion. Una operacion completa de comunicacion visual"
+            description="Desde el brief hasta la entrega, cada etapa tiene un responsable, un estado claro y visibilidad para el cliente."
+            align="center"
+          />
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                icon: Ruler,
+                title: 'Medidas y acabados exactos',
+                description: 'Produccion con especificaciones tecnicas rigurosas: gramaje, barniz, troquelado, laminado y mas.',
+              },
+              {
+                icon: Clock,
+                title: 'Tiempos de entrega reales',
+                description: 'Cada producto tiene un tiempo de produccion definido. Sin promesas vagas. El cliente sabe exactamente cuando recibe.',
+              },
+              {
+                icon: Users,
+                title: 'Gestion por cliente',
+                description: 'Area privada con historial de pedidos, entregables autorizados y comunicacion directa con el equipo de diseno.',
+              },
+              {
+                icon: Sparkles,
+                title: 'Diseno con criterio editorial',
+                description: 'No solo ejecutamos lo que piden. El equipo creativo aporta concepto, jerarquia visual y coherencia de marca.',
+              },
+              {
+                icon: Zap,
+                title: 'Produccion en Bogota',
+                description: 'Planta propia en zona industrial. Sin intermediarios. Mas control sobre calidad, tiempos y costos finales.',
+              },
+              {
+                icon: WandSparkles,
+                title: 'Portal digital integrado',
+                description: 'Catalogo, servicios, tracking y area de cliente en un solo sistema. Sin llamadas para saber el estado del pedido.',
+              },
+            ].map((item) => (
+              <PublicCard key={item.title} className="p-6">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[rgba(6,182,212,0.12)] ring-1 ring-[rgba(6,182,212,0.18)]">
+                  <item.icon className="h-5 w-5 text-[var(--public-accent-cyan,#5cf0e8)]" />
+                </div>
+                <h3 className="text-lg font-bold tracking-tight text-[var(--public-text)]">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[var(--public-text-muted)]">{item.description}</p>
+              </PublicCard>
+            ))}
           </div>
         </div>
       </PublicSection>
