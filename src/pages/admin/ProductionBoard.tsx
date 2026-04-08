@@ -195,10 +195,10 @@ export default function ProductionBoard() {
             onClick={closeDetail}
           />
 
-          {/* Panel */}
-          <div className="relative z-50 flex h-full w-full max-w-lg flex-col overflow-y-auto shadow-2xl admin-panel">
+          {/* Panel — flex column: header shrink-0 | body scroll | footer shrink-0 */}
+          <div className="relative z-50 flex h-full w-full max-w-lg flex-col shadow-2xl admin-panel">
             {/* Header */}
-            <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-[var(--admin-border)] bg-[var(--admin-panel)] px-6 py-5">
+            <div className="shrink-0 flex items-start justify-between gap-4 border-b border-[var(--admin-border)] px-6 py-5">
               <div className="min-w-0">
                 <p className="text-xs font-medium admin-text-muted">{selectedJob.id}</p>
                 <h2 className="mt-1 text-xl font-black tracking-tight leading-snug admin-text">
@@ -217,8 +217,8 @@ export default function ProductionBoard() {
               </div>
             </div>
 
-            {/* Body */}
-            <div className="flex-1 space-y-6 px-6 py-6">
+            {/* Body — only this scrolls */}
+            <div className="flex-1 overflow-y-auto space-y-6 px-6 py-6">
               {/* Meta */}
               <div className="space-y-2 text-sm admin-text-muted">
                 <div className="admin-surface-soft rounded-lg px-4 py-3">
@@ -312,7 +312,7 @@ export default function ProductionBoard() {
             </div>
 
             {/* Footer actions */}
-            <div className="sticky bottom-0 border-t border-[var(--admin-border)] bg-[var(--admin-panel)] px-6 py-4 space-y-3">
+            <div className="shrink-0 border-t border-[var(--admin-border)] px-6 py-4 space-y-3">
               {nextStatusMap[selectedJob.status] ? (
                 <button
                   type="button"
