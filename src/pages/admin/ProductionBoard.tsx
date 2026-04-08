@@ -73,7 +73,7 @@ export default function ProductionBoard() {
   return (
     <div className="flex flex-col gap-6">
       {/* ── Board ─────────────────────────────────────────────────────── */}
-      <section className="admin-panel p-6">
+      <section className="admin-panel min-w-0 overflow-hidden p-6">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="admin-kicker">Produccion creativa</p>

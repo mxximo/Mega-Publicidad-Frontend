@@ -106,7 +106,7 @@ export default function AdminLayout() {
       </aside>
 
       {/* Main content — offset by sidebar width */}
-      <div className="ml-60 flex-1">
+      <div className="ml-60 flex min-h-screen flex-1 flex-col bg-[var(--admin-bg)]">
         <header className="sticky top-0 z-20 flex items-center justify-between border-b border-[var(--admin-border)] bg-[var(--admin-bg)] px-6 py-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--admin-ink3)]">
