@@ -1,8 +1,14 @@
+import { useMemo } from 'react';
 import StatusBadge from '../../components/StatusBadge';
 import { customers, orders } from '../../data/mockData';
 import { formatCurrency, formatDateTime } from '../../lib/format';
 
 export default function Orders() {
+  const customerMap = useMemo(
+    () => new Map(customers.map((c) => [c.id, c])),
+    [],
+  );
+
   return (
     <div className="space-y-6">
       <div>
@@ -42,7 +48,7 @@ export default function Orders() {
             </thead>
             <tbody className="divide-y divide-[var(--admin-border)]">
               {orders.map((order) => {
-                const customer = customers.find((candidate) => candidate.id === order.customerId);
+                const customer = customerMap.get(order.customerId);
                 return (
                   <tr key={order.id}>
                     <td className="py-4 font-semibold admin-text">{order.trackingCode}</td>

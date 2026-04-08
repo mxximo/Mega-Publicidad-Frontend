@@ -57,7 +57,10 @@ const quickLinks = [
 ];
 
 export default function Home() {
-  const featuredProducts = products.filter((product) => product.featured).slice(0, 3);
+  const featuredProducts = useMemo(
+    () => products.filter((product) => product.featured).slice(0, 3),
+    [],
+  );
   const heroRootRef = useRef<HTMLElement | null>(null);
   const heroCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -68,6 +71,7 @@ export default function Home() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    let mounted = true;
     let width = 0;
     let height = 0;
     const totalPoints = 55;
@@ -100,6 +104,7 @@ export default function Home() {
     };
 
     const draw = () => {
+      if (!mounted) return;
       ctx.clearRect(0, 0, width, height);
       for (let i = 0; i < totalPoints; i += 1) {
         const point = points[i];
@@ -135,6 +140,7 @@ export default function Home() {
     window.addEventListener('resize', resizeCanvas);
 
     return () => {
+      mounted = false;
       window.cancelAnimationFrame(animationFrame);
       window.removeEventListener('resize', resizeCanvas);
     };
@@ -245,6 +251,8 @@ export default function Home() {
                   <img
                     src={product.image}
                     alt={product.name}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover opacity-84 transition duration-300 group-hover:scale-[1.02]"
                     referrerPolicy="no-referrer"
                   />
@@ -491,6 +499,8 @@ export default function Home() {
                     <img
                       src={item.image}
                       alt={item.title}
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover"
                       referrerPolicy="no-referrer"
                     />

@@ -284,15 +284,6 @@ select {
   color: var(--admin-alert-text);
 }
 
-.admin-theme-root[data-admin-theme] *,
-.admin-theme-root[data-admin-theme] *::before,
-.admin-theme-root[data-admin-theme] *::after {
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease,
-    color 0.15s ease;
-}
-
 .admin-theme-root[data-admin-theme] button,
 .admin-theme-root[data-admin-theme] a,
 .admin-theme-root[data-admin-theme] input,

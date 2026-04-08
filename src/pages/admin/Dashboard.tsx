@@ -1,4 +1,5 @@
 import { AlertTriangle, Boxes, BriefcaseBusiness, ReceiptText, Wallet } from 'lucide-react';
+import { useMemo } from 'react';
 import MetricCard from '../../components/MetricCard';
 import StatusBadge from '../../components/StatusBadge';
 import {
@@ -11,15 +12,28 @@ import {
 import { formatCurrency, formatDateTime } from '../../lib/format';
 
 export default function Dashboard() {
-  const salesToday = payments
-    .filter(
-      (payment) =>
-        payment.createdAt.startsWith('2026-03-15') || payment.createdAt.startsWith('2026-03-16'),
-    )
-    .reduce((sum, payment) => sum + payment.amount, 0);
-  const activeJobs = creativeJobs.filter((job) => job.status !== 'closed').length;
-  const lowStock = inventoryItems.filter((item) => item.stock - item.reserved <= item.minimumStock).length;
-  const pendingPayments = orders.filter((order) => order.paymentStatus !== 'paid').length;
+  const salesToday = useMemo(
+    () =>
+      payments
+        .filter(
+          (payment) =>
+            payment.createdAt.startsWith('2026-03-15') || payment.createdAt.startsWith('2026-03-16'),
+        )
+        .reduce((sum, payment) => sum + payment.amount, 0),
+    [],
+  );
+  const activeJobs = useMemo(
+    () => creativeJobs.filter((job) => job.status !== 'closed').length,
+    [],
+  );
+  const lowStock = useMemo(
+    () => inventoryItems.filter((item) => item.stock - item.reserved <= item.minimumStock).length,
+    [],
+  );
+  const pendingPayments = useMemo(
+    () => orders.filter((order) => order.paymentStatus !== 'paid').length,
+    [],
+  );
 
   return (
     <div className="space-y-6">

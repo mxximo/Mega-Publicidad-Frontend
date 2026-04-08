@@ -40,8 +40,38 @@ export default function ProductionBoard() {
     return user.role === 'designer' ? jobs.filter((job) => job.designerId === user.id) : jobs;
   }, [jobs, user]);
 
-  const selectedJob = visibleJobs.find((job) => job.id === selectedJobId) ?? visibleJobs[0] ?? null;
-  const designers = internalUsers.filter((candidate) => candidate.role === 'designer');
+  const selectedJob = useMemo(
+    () => visibleJobs.find((job) => job.id === selectedJobId) ?? visibleJobs[0] ?? null,
+    [visibleJobs, selectedJobId],
+  );
+
+  const designers = useMemo(
+    () => internalUsers.filter((candidate) => candidate.role === 'designer'),
+    [],
+  );
+
+  const customerMap = useMemo(
+    () => new Map(customers.map((c) => [c.id, c])),
+    [],
+  );
+
+  const userMap = useMemo(
+    () => new Map(internalUsers.map((u) => [u.id, u])),
+    [],
+  );
+
+  const jobsByColumn = useMemo(
+    () => {
+      const map = new Map<CreativeJobStatus, typeof visibleJobs>();
+      for (const col of columns) map.set(col.id, []);
+      for (const job of visibleJobs) {
+        const list = map.get(job.status);
+        if (list) list.push(job);
+      }
+      return map;
+    },
+    [visibleJobs],
+  );
 
   return (
     <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
@@ -69,14 +99,12 @@ export default function ProductionBoard() {
                 <div className="mb-4 flex items-center justify-between gap-3">
                   <StatusBadge tone={column.tone}>{column.title}</StatusBadge>
                   <span className="admin-text-faint text-xs font-bold uppercase tracking-[0.18em]">
-                    {visibleJobs.filter((job) => job.status === column.id).length}
+                    {jobsByColumn.get(column.id)?.length ?? 0}
                   </span>
                 </div>
                 <div className="space-y-3">
-                  {visibleJobs
-                    .filter((job) => job.status === column.id)
-                    .map((job) => {
-                      const customer = customers.find((candidate) => candidate.id === job.customerId);
+                  {(jobsByColumn.get(column.id) ?? []).map((job) => {
+                      const customer = customerMap.get(job.customerId);
                       return (
                         <button
                           key={job.id}
@@ -136,13 +164,13 @@ export default function ProductionBoard() {
               <div className="admin-surface-soft rounded-lg px-4 py-3">
                 Responsable principal:{' '}
                 <span className="font-semibold admin-text">
-                  {internalUsers.find((candidate) => candidate.id === selectedJob.designerId)?.name}
+                  {userMap.get(selectedJob.designerId)?.name}
                 </span>
               </div>
               <div className="admin-surface-soft rounded-lg px-4 py-3">
                 Asigno:{' '}
                 <span className="font-semibold admin-text">
-                  {internalUsers.find((candidate) => candidate.id === selectedJob.assignedById)?.name}
+                  {userMap.get(selectedJob.assignedById)?.name}
                 </span>
               </div>
               <div className="admin-surface-soft rounded-lg px-4 py-3">

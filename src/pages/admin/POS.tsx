@@ -37,26 +37,33 @@ export default function POS() {
   const [cart, setCart] = useState<CatalogItem[]>(catalog.slice(0, 2));
   const [selectedCustomerId, setSelectedCustomerId] = useState(customers[0]?.id ?? '');
 
-  const filteredCatalog = catalog.filter((item) =>
-    item.label.toLowerCase().includes(search.trim().toLowerCase()),
+  const filteredCatalog = useMemo(
+    () =>
+      catalog.filter((item) =>
+        item.label.toLowerCase().includes(search.trim().toLowerCase()),
+      ),
+    [catalog, search],
   );
 
-  const cartGrouped = cart.reduce<Record<string, { item: CatalogItem; quantity: number }>>(
-    (accumulator, item) => {
-      accumulator[item.id] = accumulator[item.id]
-        ? {
-            item,
-            quantity: accumulator[item.id].quantity + 1,
-          }
-        : { item, quantity: 1 };
-
-      return accumulator;
-    },
-    {},
+  const cartGrouped = useMemo(
+    () =>
+      cart.reduce<Record<string, { item: CatalogItem; quantity: number }>>(
+        (accumulator, item) => {
+          accumulator[item.id] = accumulator[item.id]
+            ? { item, quantity: accumulator[item.id].quantity + 1 }
+            : { item, quantity: 1 };
+          return accumulator;
+        },
+        {},
+      ),
+    [cart],
   );
 
   const lines: { item: CatalogItem; quantity: number }[] = Object.values(cartGrouped);
-  const subtotal = lines.reduce((sum, line) => sum + line.item.price * line.quantity, 0);
+  const subtotal = useMemo(
+    () => lines.reduce((sum, line) => sum + line.item.price * line.quantity, 0),
+    [lines],
+  );
   const tax = subtotal * 0.19;
   const total = subtotal + tax;
   const activeCashSession = cashSessions[0];
