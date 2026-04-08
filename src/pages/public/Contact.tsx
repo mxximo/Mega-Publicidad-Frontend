@@ -17,7 +17,7 @@ export default function Contact() {
                 title="Cotiza segun el flujo correcto desde el primer contacto"
                 description="El portal puede captar productos, servicios estandar o solicitudes personalizadas sin confundir la operacion interna."
               />
-              <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              <div className="mt-8 grid gap-4 md:grid-cols-3">
                 {[
                   { icon: Phone, label: 'Telefono', value: '+57 601 555 2040' },
                   { icon: Mail, label: 'Correo', value: 'hola@megapublicidad.co' },
@@ -26,7 +26,7 @@ export default function Contact() {
                   <div key={item.label} className="gp-muted-card p-5">
                     <item.icon className="h-5 w-5 text-[var(--public-accent)]" />
                     <p className="mt-4 font-bold text-[var(--public-text)]">{item.label}</p>
-                    <p className="mt-2 text-sm text-[var(--public-text-muted)]">{item.value}</p>
+                    <p className="mt-2 break-words text-sm text-[var(--public-text-muted)]">{item.value}</p>
                   </div>
                 ))}
               </div>
